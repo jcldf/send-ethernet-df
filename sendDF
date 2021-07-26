@@ -1,0 +1,25 @@
+from scapy.all import *
+import netifaces
+
+payload = 'DF'
+
+
+def choose_interface():
+    print(f"Escolha uma interface de rede")
+    i=0
+    for j in netifaces.interfaces():
+        print(f'{i}) - {j}')
+        i=i+1
+    iface = int(input())
+    result = netifaces.interfaces()[iface]
+    return result
+
+def send_raw(iface, dest_address):
+   pkt = Ether(dst=dest_address)
+   sendp(pkt, iface=iface)
+
+
+if __name__ == '__main__':
+    dest_address = 'fe:ed:de:ad:c0:de'
+    interface = choose_interface()
+    send_raw(interface, dest_address)
